@@ -11,6 +11,8 @@ const app = express();
 app.use(cors());
 app.use(express.json({ limit: '2mb' }));
 
+const distDir = path.resolve('dist');
+
 app.get('/api/health', (_req, res) => res.json({ ok: true }));
 
 app.get('/api/dashboard', (_req, res) => {
@@ -176,6 +178,14 @@ app.post('/api/payments', (req, res) => {
   const created = q.getPaymentById.get({ id: paymentId });
   res.status(201).json(created);
 });
+
+// Serve React build when present (single deploy: UI + API)
+if (fs.existsSync(distDir)) {
+  app.use(express.static(distDir));
+  app.get('*', (_req, res) => {
+    res.sendFile(path.join(distDir, 'index.html'));
+  });
+}
 
 const PORT = Number(process.env.PORT || 5174);
 

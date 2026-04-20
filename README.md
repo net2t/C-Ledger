@@ -85,3 +85,22 @@ Environment variables (optional):
 ### Google Drive sync (silent backup)
 
 Point `BACKUP_DIR` to a folder that is already synced by Google Drive for Desktop (or sync the `backups/` folder). No code change required.
+
+## Railway (full online app)
+
+Deploy as a **single Railway service**:
+
+- **Build command**: `npm run build:railway`
+- **Start command**: `npm start`
+
+Create a **Persistent Volume** and mount it, then set env vars:
+
+- `DATA_DIR=/data/db`
+- `BACKUP_DIR=/data/backups`
+- `BACKUP_EVERY_MINUTES=60` (or `1440` for daily)
+- `BACKUP_KEEP_DAYS=30`
+
+Optional:
+
+- `BACKUP_ENABLED=1`
+- `SQLITE_FILE=c-ledger.db`

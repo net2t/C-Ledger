@@ -13,6 +13,8 @@ export const db = new Database(dbPath);
 db.pragma('journal_mode = WAL');
 db.pragma('foreign_keys = ON');
 
+applySchema();
+
 export const q = {
   getTotalCases: db.prepare('SELECT COUNT(*) AS n FROM cases'),
   getCasesByPhase: db.prepare('SELECT phase, COUNT(*) AS n FROM cases GROUP BY phase ORDER BY phase'),
@@ -169,6 +171,10 @@ export const q = {
 };
 
 export function initDb() {
+  applySchema();
+}
+
+function applySchema() {
   const schema = fs.readFileSync(schemaPath, 'utf8');
   db.exec(schema);
 }
