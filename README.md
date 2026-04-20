@@ -1,4 +1,4 @@
-# BrandEx Ledger
+# BrandEx Ledger v1.0
 
 A simple, responsive client ledger application built with vanilla HTML, CSS, and JavaScript.
 
