@@ -1,0 +1,56 @@
+/* ============================================================
+   ROOT VARIABLES — NeoBrutalism Theme
+   All colors, fonts, and shadows defined here
+   ============================================================ */
+:root {
+  --black: #0a0a0a;
+  --white: #fafaf0;
+  --yellow: #FFE234;
+  --blue: #2563FF;
+  --red: #FF3B30;
+  --green: #00C853;
+  --orange: #FF6B00;
+  --pink: #FF2D8B;
+  --bg: #f5f0e8;
+  --card: #fafaf0;
+  --border: 3px solid #0a0a0a;
+  --shadow: 4px 4px 0px #0a0a0a;
+  --shadow-lg: 6px 6px 0px #0a0a0a;
+  --font-main: 'Space Grotesk', sans-serif;
+  --font-mono: 'IBM Plex Mono', monospace;
+}
+
+/* ============================================================
+   GLOBAL RESET & BASE
+   ============================================================ */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-main);
+  background: var(--bg);
+  color: var(--black);
+  min-height: 100vh;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+/* ============================================================
+   SCROLLBAR STYLING
+   ============================================================ */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--black);
+  border: 2px solid var(--bg);
+}
