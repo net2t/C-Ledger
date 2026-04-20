@@ -685,13 +685,353 @@ body {
   font-family: var(--font-mono);
 }
 
-/* Mobile responsiveness */
+/* ============================================================
+   RESPONSIVE DESIGN — Mobile & Tablet Optimizations
+   ============================================================ */
+
+/* Tablet (768px and below) */
+@media (max-width: 768px) {
+  .topbar {
+    flex-wrap: wrap;
+    padding: 0 16px;
+  }
+  .topbar-logo {
+    min-width: auto;
+    border: none;
+    padding: 10px 0;
+    flex: 1;
+  }
+  .topbar-logo img, .topbar-logo .logo-placeholder {
+    width: 36px;
+    height: 36px;
+  }
+  .topbar-logo .firm-name {
+    font-size: 11px;
+  }
+  .topbar-nav {
+    order: 3;
+    width: 100%;
+    padding: 8px 0;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .topbar-nav::-webkit-scrollbar {
+    height: 4px;
+  }
+  .nav-btn {
+    padding: 8px 14px;
+    font-size: 11px;
+    white-space: nowrap;
+  }
+  .topbar-right {
+    border: none;
+    padding: 10px 0;
+  }
+  .total-badge {
+    font-size: 11px;
+    padding: 4px 10px;
+  }
+  .section-title {
+    font-size: 22px;
+  }
+  .dashboard-stats {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+  .clients-grid {
+    grid-template-columns: 1fr;
+  }
+  .settings-grid {
+    grid-template-columns: 1fr;
+  }
+  .modal {
+    max-width: 100%;
+    margin: 0;
+  }
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Mobile (640px and below) */
 @media (max-width: 640px) {
-  .topbar { flex-wrap: wrap; }
-  .topbar-logo { min-width: auto; border: none; padding: 10px 0; }
-  .topbar-right { border: none; padding: 10px 0; }
-  .topbar-nav { padding: 0; }
-  .form-row { grid-template-columns: 1fr; }
+  body {
+    font-size: 14px;
+  }
+  .page {
+    padding: 16px;
+  }
+  .topbar {
+    padding: 0 12px;
+  }
+  .topbar-logo {
+    gap: 8px;
+  }
+  .topbar-logo img, .topbar-logo .logo-placeholder {
+    width: 32px;
+    height: 32px;
+    font-size: 14px;
+  }
+  .topbar-logo .firm-name {
+    font-size: 10px;
+  }
+  .nav-btn {
+    padding: 6px 12px;
+    font-size: 10px;
+  }
+  .section-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .section-title {
+    font-size: 20px;
+  }
+  .btn {
+    padding: 8px 16px;
+    font-size: 12px;
+  }
+  .btn-sm {
+    padding: 5px 10px;
+    font-size: 10px;
+  }
+  .dashboard-stats {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+  .stat-card {
+    padding: 12px 16px;
+  }
+  .stat-card .stat-value {
+    font-size: 18px;
+  }
+  .client-card {
+    border-width: 2px;
+  }
+  .client-card-header {
+    padding: 10px 12px;
+  }
+  .client-card-body {
+    padding: 12px;
+  }
+  .client-name {
+    font-size: 14px;
+  }
+  .client-card-footer {
+    flex-wrap: wrap;
+  }
+  .filter-bar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .filter-bar input, .filter-bar select {
+    width: 100%;
+  }
+  /* Ledger header for mobile */
+  .ledger-client-header {
+    padding: 12px 16px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .ledger-client-name {
+    font-size: 18px;
+  }
+  .ledger-balance-amount {
+    font-size: 22px;
+  }
+  .ledger-balance-display {
+    text-align: left;
+    width: 100%;
+    border-top: 1px solid rgba(255,226,52,0.3);
+    padding-top: 12px;
+  }
+  /* Table optimization for mobile */
+  .table-wrapper {
+    border-width: 2px;
+  }
+  .ledger-table {
+    font-size: 11px;
+    min-width: 600px;
+  }
+  .ledger-table th {
+    padding: 8px 6px;
+    font-size: 9px;
+    letter-spacing: 0.5px;
+  }
+  .ledger-table td {
+    padding: 8px 6px;
+    font-size: 10px;
+  }
+  .amount-cell {
+    font-size: 10px;
+  }
+  .stage-badge {
+    font-size: 9px;
+    padding: 1px 6px;
+  }
+  .tbl-btn {
+    padding: 2px 6px;
+    font-size: 9px;
+  }
+  /* Modal full screen on mobile */
+  .modal-overlay {
+    padding: 0;
+    align-items: flex-end;
+  }
+  .modal {
+    max-width: 100%;
+    border: none;
+    border-top: 3px solid var(--black);
+    border-radius: 16px 16px 0 0;
+    max-height: 90vh;
+    overflow-y: auto;
+    animation: slideUp 0.2s ease;
+  }
+  @keyframes slideUp {
+    from { transform: translateY(100%); }
+    to { transform: translateY(0); }
+  }
+  .modal-header {
+    padding: 12px 16px;
+  }
+  .modal-body {
+    padding: 16px;
+  }
+  .modal-footer {
+    padding: 12px 16px;
+    flex-wrap: wrap;
+  }
+  .modal-footer .btn {
+    flex: 1;
+    justify-content: center;
+  }
+  /* Form controls on mobile */
+  .form-control {
+    font-size: 14px;
+    padding: 10px 12px;
+  }
+  .form-label {
+    font-size: 10px;
+  }
+  /* Toast on mobile */
+  .toast {
+    left: 16px;
+    right: 16px;
+    bottom: 16px;
+    max-width: none;
+    font-size: 12px;
+    padding: 10px 16px;
+  }
+  /* Settings cards */
+  .settings-card-header {
+    font-size: 12px;
+    padding: 10px 12px;
+  }
+  .settings-card-body {
+    padding: 12px;
+  }
+  /* Logo upload */
+  .logo-upload-area {
+    padding: 16px;
+  }
+  .logo-preview {
+    max-width: 120px;
+    max-height: 60px;
+  }
+  /* Empty state */
+  .empty-state {
+    padding: 40px 16px;
+  }
+  .empty-state-icon {
+    font-size: 36px;
+  }
+  .empty-state-title {
+    font-size: 16px;
+  }
+}
+
+/* Small Mobile (480px and below) */
+@media (max-width: 480px) {
+  .topbar-logo {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .topbar-logo .firm-name {
+    line-height: 1.1;
+  }
+  .nav-btn {
+    padding: 8px 10px;
+    font-size: 9px;
+  }
+  .section-title {
+    font-size: 18px;
+  }
+  .client-card-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+  .client-city-badge {
+    align-self: flex-start;
+  }
+  .ledger-table {
+    min-width: 500px;
+  }
+  .ledger-table th:nth-child(5),
+  .ledger-table th:nth-child(6),
+  .ledger-table td:nth-child(5),
+  .ledger-table td:nth-child(6) {
+    display: none;
+  }
+  .btn {
+    padding: 7px 14px;
+    font-size: 11px;
+  }
+  .back-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .back-row .form-control {
+    margin-top: 8px;
+  }
+}
+
+/* Landscape Mobile (max height, any width) */
+@media (max-height: 500px) and (orientation: landscape) {
+  .modal {
+    max-height: 95vh;
+  }
+  .modal-body {
+    max-height: 60vh;
+    overflow-y: auto;
+  }
+}
+
+/* Touch device optimizations */
+@media (hover: none) and (pointer: coarse) {
+  .btn:hover {
+    transform: none;
+    box-shadow: var(--shadow);
+  }
+  .client-card:hover {
+    transform: none;
+    box-shadow: var(--shadow);
+  }
+  .nav-btn:hover {
+    background: none;
+  }
+  /* Increase touch targets */
+  .btn, .tbl-btn, .nav-btn {
+    min-height: 44px;
+    min-width: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .tbl-btn {
+    min-height: 36px;
+  }
 }
 </style>
 </head>
