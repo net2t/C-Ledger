@@ -1,0 +1,1874 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BrandEx Ledger</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700;900&family=IBM+Plex+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+
+/* ============================================================
+   ROOT VARIABLES — NeoBrutalism Theme
+   All colors, fonts, and shadows defined here
+   ============================================================ */
+:root {
+  --black: #0a0a0a;
+  --white: #fafaf0;
+  --yellow: #FFE234;
+  --blue: #2563FF;
+  --red: #FF3B30;
+  --green: #00C853;
+  --orange: #FF6B00;
+  --pink: #FF2D8B;
+  --bg: #f5f0e8;
+  --card: #fafaf0;
+  --border: 3px solid #0a0a0a;
+  --shadow: 4px 4px 0px #0a0a0a;
+  --shadow-lg: 6px 6px 0px #0a0a0a;
+  --font-main: 'Space Grotesk', sans-serif;
+  --font-mono: 'IBM Plex Mono', monospace;
+}
+
+/* ============================================================
+   GLOBAL RESET & BASE
+   ============================================================ */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: var(--font-main);
+  background: var(--bg);
+  color: var(--black);
+  min-height: 100vh;
+}
+
+/* ============================================================
+   SCROLLBAR STYLING
+   ============================================================ */
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--black); border: 2px solid var(--bg); }
+
+/* ============================================================
+   TOP NAVIGATION BAR
+   Contains logo area, app title, nav tabs
+   ============================================================ */
+.topbar {
+  background: var(--yellow);
+  border-bottom: var(--border);
+  padding: 0 24px;
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+/* Logo section inside topbar */
+.topbar-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 20px 12px 0;
+  border-right: var(--border);
+  min-width: 200px;
+}
+.topbar-logo img {
+  width: 44px;
+  height: 44px;
+  object-fit: contain;
+  border: var(--border);
+  background: var(--white);
+  padding: 2px;
+}
+.topbar-logo .logo-placeholder {
+  width: 44px; height: 44px;
+  background: var(--black);
+  border: var(--border);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--yellow);
+  font-weight: 900;
+  font-size: 18px;
+  font-family: var(--font-mono);
+  flex-shrink: 0;
+}
+.topbar-logo .firm-name {
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.2;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Navigation tabs in topbar */
+.topbar-nav {
+  display: flex;
+  align-items: stretch;
+  flex: 1;
+  padding: 0 16px;
+  gap: 4px;
+}
+.nav-btn {
+  background: none;
+  border: none;
+  padding: 0 18px;
+  font-family: var(--font-main);
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  cursor: pointer;
+  color: var(--black);
+  position: relative;
+  transition: all 0.1s;
+}
+.nav-btn:hover { background: rgba(0,0,0,0.1); }
+.nav-btn.active {
+  background: var(--black);
+  color: var(--yellow);
+}
+/* Right side of topbar — global balance display */
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 12px 0 12px 20px;
+  border-left: var(--border);
+}
+.total-badge {
+  background: var(--black);
+  color: var(--yellow);
+  padding: 6px 14px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 700;
+  border: var(--border);
+}
+
+/* ============================================================
+   PAGE SECTIONS — shown/hidden by JS
+   ============================================================ */
+.page { display: none; padding: 24px; }
+.page.active { display: block; }
+
+/* ============================================================
+   SECTION HEADER — used on each page
+   ============================================================ */
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.section-title {
+  font-size: 28px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: -0.5px;
+}
+.section-title span {
+  background: var(--yellow);
+  padding: 0 6px;
+}
+
+/* ============================================================
+   BUTTONS — NeoBrutalism style
+   ============================================================ */
+.btn {
+  padding: 10px 20px;
+  border: var(--border);
+  font-family: var(--font-main);
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: all 0.1s;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--white);
+  color: var(--black);
+  box-shadow: var(--shadow);
+}
+.btn:hover { transform: translate(-2px, -2px); box-shadow: 6px 6px 0 var(--black); }
+.btn:active { transform: translate(2px, 2px); box-shadow: 2px 2px 0 var(--black); }
+.btn-primary { background: var(--black); color: var(--yellow); }
+.btn-success { background: var(--green); color: var(--black); }
+.btn-danger { background: var(--red); color: var(--white); }
+.btn-yellow { background: var(--yellow); color: var(--black); }
+.btn-sm { padding: 6px 12px; font-size: 11px; box-shadow: 3px 3px 0 var(--black); }
+.btn-sm:hover { box-shadow: 5px 5px 0 var(--black); }
+
+/* ============================================================
+   DASHBOARD — CLIENT CARDS GRID
+   ============================================================ */
+.dashboard-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+  margin-bottom: 28px;
+}
+/* Individual stat card on dashboard */
+.stat-card {
+  background: var(--card);
+  border: var(--border);
+  box-shadow: var(--shadow);
+  padding: 16px 20px;
+}
+.stat-card .stat-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #555;
+  margin-bottom: 6px;
+}
+.stat-card .stat-value {
+  font-family: var(--font-mono);
+  font-size: 22px;
+  font-weight: 700;
+}
+.stat-card.yellow { background: var(--yellow); }
+.stat-card.black { background: var(--black); color: var(--yellow); }
+
+/* Clients grid — cards for each client */
+.clients-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+}
+/* Single client card */
+.client-card {
+  background: var(--card);
+  border: var(--border);
+  box-shadow: var(--shadow);
+  cursor: pointer;
+  transition: all 0.1s;
+  overflow: hidden;
+}
+.client-card:hover {
+  transform: translate(-3px, -3px);
+  box-shadow: var(--shadow-lg);
+}
+.client-card-header {
+  background: var(--black);
+  color: var(--yellow);
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.client-code {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+.client-city-badge {
+  background: var(--yellow);
+  color: var(--black);
+  padding: 2px 8px;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  border: 2px solid var(--black);
+}
+.client-card-body {
+  padding: 14px 16px;
+}
+.client-name {
+  font-size: 16px;
+  font-weight: 900;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+  letter-spacing: 0.3px;
+}
+.client-balance-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.balance-label { font-size: 11px; font-weight: 700; text-transform: uppercase; color: #666; }
+.balance-value {
+  font-family: var(--font-mono);
+  font-size: 15px;
+  font-weight: 700;
+}
+.balance-positive { color: var(--red); }
+.balance-zero { color: var(--green); }
+.client-card-footer {
+  border-top: 2px solid var(--black);
+  padding: 8px 16px;
+  display: flex;
+  gap: 8px;
+}
+
+/* ============================================================
+   SEARCH & FILTER BAR
+   ============================================================ */
+.filter-bar {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.filter-bar input, .filter-bar select {
+  border: var(--border);
+  padding: 8px 14px;
+  font-family: var(--font-main);
+  font-size: 13px;
+  font-weight: 600;
+  background: var(--white);
+  box-shadow: 3px 3px 0 var(--black);
+  outline: none;
+}
+.filter-bar input:focus, .filter-bar select:focus {
+  box-shadow: 5px 5px 0 var(--black);
+}
+
+/* ============================================================
+   LEDGER PAGE — CLIENT HEADER DISPLAY
+   Shows selected client info prominently
+   ============================================================ */
+.ledger-client-header {
+  background: var(--black);
+  color: var(--yellow);
+  padding: 16px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: var(--border);
+  box-shadow: var(--shadow-lg);
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.ledger-client-info { display: flex; flex-direction: column; gap: 4px; }
+.ledger-client-code {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 2px;
+  opacity: 0.7;
+}
+.ledger-client-name {
+  font-size: 24px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.ledger-client-city {
+  font-size: 12px;
+  opacity: 0.7;
+}
+.ledger-balance-display {
+  text-align: right;
+}
+.ledger-balance-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  opacity: 0.6;
+}
+.ledger-balance-amount {
+  font-family: var(--font-mono);
+  font-size: 28px;
+  font-weight: 900;
+}
+
+/* ============================================================
+   LEDGER TABLE
+   Main data table for entries
+   ============================================================ */
+.table-wrapper {
+  overflow-x: auto;
+  border: var(--border);
+  box-shadow: var(--shadow-lg);
+  background: var(--card);
+}
+.ledger-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  min-width: 900px;
+}
+.ledger-table thead tr {
+  background: var(--black);
+  color: var(--yellow);
+}
+.ledger-table th {
+  padding: 12px 10px;
+  text-align: left;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  border-right: 1px solid rgba(255,226,52,0.2);
+  white-space: nowrap;
+}
+.ledger-table td {
+  padding: 10px 10px;
+  border-bottom: 2px solid var(--black);
+  border-right: 1px solid #ddd;
+  vertical-align: middle;
+}
+/* RECEIVED rows get highlighted green background */
+.ledger-table tr.received-row {
+  background: #e8ffe8;
+}
+.ledger-table tr.received-row:hover {
+  background: #d0ffd0;
+}
+/* Opening balance row — special yellow highlight */
+.ledger-table tr.opening-row {
+  background: var(--yellow);
+  font-weight: 700;
+}
+.ledger-table tr:hover:not(.received-row):not(.opening-row) {
+  background: #f5f5e0;
+}
+/* Stage badge colors */
+.stage-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  font-size: 10px;
+  font-weight: 700;
+  border: 2px solid var(--black);
+  text-transform: uppercase;
+  font-family: var(--font-mono);
+}
+.stage-s1 { background: #e8f4ff; }
+.stage-s2 { background: #fff3e8; }
+.stage-s3 { background: #e8ffe8; }
+.stage-s4 { background: #ffe8f4; }
+.stage-custom { background: var(--yellow); }
+
+/* Amount cells — monospace font for alignment */
+.amount-cell {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 700;
+  text-align: right;
+}
+.due-amount { color: var(--red); }
+.received-amount { color: var(--green); }
+.balance-amount { color: var(--blue); }
+
+/* Action buttons inside table */
+.tbl-btn {
+  background: none;
+  border: 2px solid var(--black);
+  padding: 3px 8px;
+  font-size: 10px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: var(--font-mono);
+  transition: all 0.1s;
+}
+.tbl-btn:hover { background: var(--black); color: var(--white); }
+.tbl-btn.del { border-color: var(--red); color: var(--red); }
+.tbl-btn.del:hover { background: var(--red); color: var(--white); }
+
+/* ============================================================
+   MODAL — Add Client / Add Entry / Settings
+   ============================================================ */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 999;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 40px 16px;
+  overflow-y: auto;
+}
+.modal-overlay.open { display: flex; }
+.modal {
+  background: var(--card);
+  border: var(--border);
+  box-shadow: 8px 8px 0 var(--black);
+  width: 100%;
+  max-width: 560px;
+  animation: modalIn 0.15s ease;
+}
+@keyframes modalIn {
+  from { transform: translate(6px, 6px); opacity: 0.5; }
+  to { transform: translate(0,0); opacity: 1; }
+}
+.modal-header {
+  background: var(--black);
+  color: var(--yellow);
+  padding: 14px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.modal-title {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.modal-close {
+  background: none;
+  border: 2px solid var(--yellow);
+  color: var(--yellow);
+  width: 28px; height: 28px;
+  font-size: 16px;
+  font-weight: 900;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  line-height: 1;
+}
+.modal-close:hover { background: var(--yellow); color: var(--black); }
+.modal-body { padding: 20px; }
+.modal-footer {
+  padding: 14px 20px;
+  border-top: var(--border);
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+/* ============================================================
+   FORM ELEMENTS
+   ============================================================ */
+.form-group { margin-bottom: 16px; }
+.form-label {
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  margin-bottom: 6px;
+  color: #444;
+}
+.form-control {
+  width: 100%;
+  padding: 9px 12px;
+  border: var(--border);
+  font-family: var(--font-main);
+  font-size: 13px;
+  font-weight: 500;
+  background: var(--white);
+  box-shadow: 3px 3px 0 var(--black);
+  outline: none;
+  transition: box-shadow 0.1s;
+}
+.form-control:focus { box-shadow: 5px 5px 0 var(--black); }
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+/* ============================================================
+   SETTINGS PAGE
+   ============================================================ */
+.settings-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 20px;
+}
+.settings-card {
+  background: var(--card);
+  border: var(--border);
+  box-shadow: var(--shadow);
+}
+.settings-card-header {
+  background: var(--yellow);
+  border-bottom: var(--border);
+  padding: 12px 16px;
+  font-size: 13px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.settings-card-body { padding: 16px; }
+
+/* Logo upload area */
+.logo-upload-area {
+  border: 3px dashed var(--black);
+  padding: 24px;
+  text-align: center;
+  cursor: pointer;
+  transition: background 0.1s;
+}
+.logo-upload-area:hover { background: var(--yellow); }
+.logo-preview {
+  max-width: 160px;
+  max-height: 80px;
+  border: var(--border);
+  margin: 0 auto 12px;
+  display: block;
+}
+
+/* ============================================================
+   EMPTY STATE
+   Shown when no clients or no entries exist
+   ============================================================ */
+.empty-state {
+  text-align: center;
+  padding: 60px 24px;
+  border: 3px dashed var(--black);
+  background: var(--card);
+}
+.empty-state-icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+}
+.empty-state-title {
+  font-size: 20px;
+  font-weight: 900;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+.empty-state-text { color: #666; margin-bottom: 20px; }
+
+/* ============================================================
+   TOAST NOTIFICATION
+   Pops up for success/error messages
+   ============================================================ */
+.toast {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background: var(--black);
+  color: var(--yellow);
+  padding: 12px 20px;
+  border: var(--border);
+  box-shadow: var(--shadow-lg);
+  font-weight: 700;
+  font-size: 13px;
+  z-index: 9999;
+  transform: translateY(100px);
+  opacity: 0;
+  transition: all 0.2s;
+  font-family: var(--font-mono);
+  max-width: 320px;
+}
+.toast.show { transform: translateY(0); opacity: 1; }
+.toast.success { background: var(--green); color: var(--black); }
+.toast.error { background: var(--red); color: var(--white); }
+
+/* ============================================================
+   BACK BUTTON — in ledger view
+   ============================================================ */
+.back-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+/* ============================================================
+   SORT INDICATOR
+   ============================================================ */
+.sort-indicator { cursor: pointer; user-select: none; }
+.sort-indicator:hover { text-decoration: underline; }
+
+/* ============================================================
+   RECEIVED TAG — inline in table
+   ============================================================ */
+.recv-tag {
+  background: var(--green);
+  color: var(--black);
+  padding: 1px 6px;
+  font-size: 10px;
+  font-weight: 700;
+  border: 2px solid var(--black);
+  font-family: var(--font-mono);
+}
+
+/* Mobile responsiveness */
+@media (max-width: 640px) {
+  .topbar { flex-wrap: wrap; }
+  .topbar-logo { min-width: auto; border: none; padding: 10px 0; }
+  .topbar-right { border: none; padding: 10px 0; }
+  .topbar-nav { padding: 0; }
+  .form-row { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     TOP NAVIGATION BAR
+     Logo + Firm name | Nav Tabs | Total Balance
+     ============================================================ -->
+<div class="topbar">
+  <div class="topbar-logo">
+    <div id="logoDisplay" class="logo-placeholder">B</div>
+    <div>
+      <div class="firm-name" id="firmNameDisplay">BrandEx<br>Law Associates</div>
+    </div>
+  </div>
+
+  <div class="topbar-nav">
+    <button class="nav-btn active" onclick="showPage('dashboard')">⊞ Dashboard</button>
+    <button class="nav-btn" onclick="showPage('ledger')">⊟ Ledger</button>
+    <button class="nav-btn" onclick="showPage('settings')">⚙ Settings</button>
+  </div>
+
+  <div class="topbar-right">
+    <div style="text-align:right;">
+      <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;opacity:0.7">Total Outstanding</div>
+      <div class="total-badge" id="globalBalance">PKR 0</div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     PAGE 1: DASHBOARD
+     Shows all client cards with summary stats
+     ============================================================ -->
+<div id="page-dashboard" class="page active">
+  <div class="section-header">
+    <div class="section-title"><span>All Clients</span></div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;">
+      <button class="btn btn-primary" onclick="openAddClientModal()">+ Add Client</button>
+    </div>
+  </div>
+
+  <!-- Summary stats row -->
+  <div class="dashboard-stats">
+    <div class="stat-card black">
+      <div class="stat-label">Total Clients</div>
+      <div class="stat-value" id="statClients">0</div>
+    </div>
+    <div class="stat-card yellow">
+      <div class="stat-label">Total Due</div>
+      <div class="stat-value" id="statDue">PKR 0</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Total Received</div>
+      <div class="stat-value" id="statReceived">PKR 0</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Total Balance</div>
+      <div class="stat-value" id="statBalance">PKR 0</div>
+    </div>
+  </div>
+
+  <!-- Filter bar for client search -->
+  <div class="filter-bar">
+    <input type="text" id="clientSearch" placeholder="Search client name or code..." oninput="renderDashboard()" style="flex:1;min-width:200px;">
+    <select id="clientSortBy" onchange="renderDashboard()">
+      <option value="code">Sort by Code</option>
+      <option value="name">Sort by Name</option>
+      <option value="city">Sort by City</option>
+      <option value="balance">Sort by Balance</option>
+    </select>
+    <select id="clientSortDir" onchange="renderDashboard()">
+      <option value="asc">A → Z</option>
+      <option value="desc">Z → A</option>
+    </select>
+  </div>
+
+  <!-- Client cards container — filled by JS -->
+  <div class="clients-grid" id="clientsGrid">
+    <!-- Generated by renderDashboard() -->
+  </div>
+</div>
+
+<!-- ============================================================
+     PAGE 2: LEDGER
+     Shows entries for selected client
+     ============================================================ -->
+<div id="page-ledger" class="page">
+  <!-- Back button and client selector -->
+  <div class="back-row">
+    <button class="btn btn-sm" onclick="showPage('dashboard')">← Back</button>
+    <select class="form-control" id="ledgerClientSelect" onchange="loadLedgerForClient(this.value)" style="width:auto;max-width:300px;box-shadow:none;">
+      <option value="">— Select Client —</option>
+    </select>
+  </div>
+
+  <!-- Selected client header -->
+  <div id="ledgerClientHeader" style="display:none;">
+    <div class="ledger-client-header">
+      <div class="ledger-client-info">
+        <div class="ledger-client-code" id="lhCode">A-001</div>
+        <div class="ledger-client-name" id="lhName">Client Name</div>
+        <div class="ledger-client-city" id="lhCity">City</div>
+      </div>
+      <div class="ledger-balance-display">
+        <div class="ledger-balance-label">Outstanding Balance</div>
+        <div class="ledger-balance-amount" id="lhBalance">PKR 0</div>
+      </div>
+    </div>
+
+    <!-- Filter/Sort bar for ledger entries -->
+    <div class="filter-bar" style="margin-bottom:16px;">
+      <button class="btn btn-primary btn-sm" onclick="openAddEntryModal()">+ Add Entry</button>
+      <input type="text" id="entrySearch" placeholder="Search details, folder no..." oninput="renderLedger()" style="flex:1;min-width:160px;">
+      <select id="entrySortBy" onchange="renderLedger()">
+        <option value="date">Sort by Date</option>
+        <option value="folder">Sort by Folder</option>
+        <option value="stage">Sort by Stage</option>
+        <option value="due">Sort by Due</option>
+        <option value="received">Sort by Received</option>
+        <option value="balance">Sort by Balance</option>
+      </select>
+      <select id="entrySortDir" onchange="renderLedger()">
+        <option value="asc">Oldest First</option>
+        <option value="desc">Newest First</option>
+      </select>
+      <select id="filterStage" onchange="renderLedger()">
+        <option value="">All Stages</option>
+        <option value="S1">S1</option>
+        <option value="S2">S2</option>
+        <option value="S3">S3</option>
+        <option value="S4">S4</option>
+      </select>
+    </div>
+
+    <!-- Ledger entries table -->
+    <div class="table-wrapper">
+      <table class="ledger-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Date</th>
+            <th>Folder No</th>
+            <th>Stage</th>
+            <th>TM No</th>
+            <th>Class</th>
+            <th>Details</th>
+            <th class="amount-cell">Due</th>
+            <th class="amount-cell">Received</th>
+            <th class="amount-cell">Balance</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="ledgerTableBody">
+          <!-- Filled by renderLedger() -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Shown when no client selected -->
+  <div id="ledgerEmpty" class="empty-state">
+    <div class="empty-state-icon">📋</div>
+    <div class="empty-state-title">Select a Client</div>
+    <div class="empty-state-text">Choose a client from the dropdown above to view their ledger entries.</div>
+  </div>
+</div>
+
+<!-- ============================================================
+     PAGE 3: SETTINGS
+     Firm info, logo, bank details
+     ============================================================ -->
+<div id="page-settings" class="page">
+  <div class="section-header">
+    <div class="section-title"><span>Settings</span></div>
+    <button class="btn btn-success" onclick="saveSettings()">✓ Save Settings</button>
+  </div>
+
+  <div class="settings-grid">
+
+    <!-- Firm Identity Card -->
+    <div class="settings-card">
+      <div class="settings-card-header">⊞ Firm Identity</div>
+      <div class="settings-card-body">
+        <div class="form-group">
+          <label class="form-label">Firm / Office Name</label>
+          <input type="text" class="form-control" id="setFirmName" placeholder="BrandEx Law Associates">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Office Address</label>
+          <textarea class="form-control" id="setAddress" rows="3" placeholder="Office No. X2, 2nd Floor, Abdullah Plaza..."></textarea>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Phone / Tele</label>
+          <input type="text" class="form-control" id="setPhone" placeholder="0314-...">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Email</label>
+          <input type="text" class="form-control" id="setEmail" placeholder="info@brandex.pk">
+        </div>
+      </div>
+    </div>
+
+    <!-- Logo Upload Card -->
+    <div class="settings-card">
+      <div class="settings-card-header">🖼 Logo</div>
+      <div class="settings-card-body">
+        <div class="logo-upload-area" onclick="document.getElementById('logoInput').click()">
+          <img id="logoPreviewImg" class="logo-preview" style="display:none;">
+          <div id="logoUploadText">
+            <div style="font-size:32px;margin-bottom:8px;">⊕</div>
+            <div style="font-weight:700;font-size:13px;text-transform:uppercase;">Click to Upload Logo</div>
+            <div style="font-size:12px;color:#666;margin-top:4px;">PNG, JPG supported</div>
+          </div>
+        </div>
+        <input type="file" id="logoInput" accept="image/*" style="display:none;" onchange="handleLogoUpload(event)">
+        <button class="btn btn-danger btn-sm" style="margin-top:12px;" onclick="removeLogo()">✕ Remove Logo</button>
+      </div>
+    </div>
+
+    <!-- Bank Account Card -->
+    <div class="settings-card">
+      <div class="settings-card-header">🏦 Bank Account</div>
+      <div class="settings-card-body">
+        <div class="form-group">
+          <label class="form-label">Bank Name</label>
+          <input type="text" class="form-control" id="setBankName" placeholder="Meezan Bank Limited Islamabad">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Account Number</label>
+          <input type="text" class="form-control" id="setBankAccount" placeholder="0104862477">
+        </div>
+        <div class="form-group">
+          <label class="form-label">IBAN</label>
+          <input type="text" class="form-control" id="setBankIBAN" placeholder="PK12MEZN0098140104862...">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Account Title</label>
+          <input type="text" class="form-control" id="setBankTitle" placeholder="BrandEx Law Associates">
+        </div>
+      </div>
+    </div>
+
+    <!-- Data Management Card -->
+    <div class="settings-card">
+      <div class="settings-card-header">💾 Data Management</div>
+      <div class="settings-card-body">
+        <p style="font-size:13px;color:#555;margin-bottom:16px;">All data is stored in your browser's Local Storage. Export regularly as backup.</p>
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <button class="btn btn-yellow" onclick="exportData()">⬇ Export Backup (JSON)</button>
+          <button class="btn" onclick="document.getElementById('importInput').click()">⬆ Import Backup (JSON)</button>
+          <input type="file" id="importInput" accept=".json" style="display:none;" onchange="importData(event)">
+          <button class="btn btn-danger" onclick="confirmClearData()">✕ Clear ALL Data</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ============================================================
+     MODAL: ADD / EDIT CLIENT
+     ============================================================ -->
+<div class="modal-overlay" id="clientModal">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="modal-title" id="clientModalTitle">Add New Client</span>
+      <button class="modal-close" onclick="closeModal('clientModal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="editClientId">
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Client Code *</label>
+          <input type="text" class="form-control" id="clientCode" placeholder="A-001" style="text-transform:uppercase;">
+        </div>
+        <div class="form-group">
+          <label class="form-label">City</label>
+          <input type="text" class="form-control" id="clientCity" placeholder="Rawalpindi">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Client / Company Name *</label>
+        <input type="text" class="form-control" id="clientName" placeholder="Mr. Furqan Brand Experts">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Opening Balance (PKR)</label>
+        <input type="number" class="form-control" id="clientOpeningBalance" placeholder="0" min="0">
+        <div style="font-size:11px;color:#888;margin-top:4px;">This will be the first entry as Opening Balance.</div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="closeModal('clientModal')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveClient()">✓ Save Client</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     MODAL: ADD / EDIT LEDGER ENTRY
+     ============================================================ -->
+<div class="modal-overlay" id="entryModal">
+  <div class="modal" style="max-width:640px;">
+    <div class="modal-header">
+      <span class="modal-title" id="entryModalTitle">Add Ledger Entry</span>
+      <button class="modal-close" onclick="closeModal('entryModal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="editEntryId">
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Date *</label>
+          <input type="date" class="form-control" id="entryDate">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Folder No</label>
+          <input type="text" class="form-control" id="entryFolder" placeholder="A02-001">
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Stage</label>
+          <select class="form-control" id="entryStage" onchange="toggleCustomStage()">
+            <option value="S1">S1 — Stage 1</option>
+            <option value="S2">S2 — Stage 2</option>
+            <option value="S3">S3 — Stage 3</option>
+            <option value="S4">S4 — Stage 4</option>
+            <option value="CUSTOM">Custom...</option>
+          </select>
+        </div>
+        <div class="form-group" id="customStageGroup" style="display:none;">
+          <label class="form-label">Custom Stage Name</label>
+          <input type="text" class="form-control" id="entryCustomStage" placeholder="e.g. Renewal">
+        </div>
+        <div class="form-group">
+          <label class="form-label">TM No</label>
+          <input type="text" class="form-control" id="entryTM" placeholder="688070">
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Class (1–45)</label>
+          <select class="form-control" id="entryClass">
+            <option value="">— Select Class —</option>
+            <!-- Options filled by JS -->
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Entry Type</label>
+          <select class="form-control" id="entryType" onchange="toggleEntryType()">
+            <option value="normal">Normal Entry</option>
+            <option value="received">Payment Received</option>
+            <option value="opening">Opening Balance</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Details / Description</label>
+        <textarea class="form-control" id="entryDetails" rows="2" placeholder="HADI S2 OBJECTION REMOVAL (DONE BASE) 15000 IN CASE OF REFUSAL..."></textarea>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Due Amount (PKR)</label>
+          <input type="number" class="form-control" id="entryDue" placeholder="0" min="0" oninput="calcBalance()">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Received Amount (PKR)</label>
+          <input type="number" class="form-control" id="entryReceived" placeholder="0" min="0" oninput="calcBalance()">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Running Balance (auto-calculated)</label>
+        <input type="number" class="form-control" id="entryBalance" placeholder="Auto" readonly style="background:#f0f0e0;cursor:not-allowed;">
+      </div>
+
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="closeModal('entryModal')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveEntry()">✓ Save Entry</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     TOAST NOTIFICATION (bottom right popup)
+     ============================================================ -->
+<div class="toast" id="toast"></div>
+
+<!-- ============================================================
+     JAVASCRIPT — ALL APP LOGIC
+     ============================================================ -->
+<script>
+
+// ============================================================
+// DB — LocalStorage Keys
+// ============================================================
+const DB_CLIENTS  = 'bx_clients';   // stores array of client objects
+const DB_ENTRIES  = 'bx_entries';   // stores array of entry objects
+const DB_SETTINGS = 'bx_settings';  // stores settings object
+
+// ============================================================
+// CURRENT STATE — which client is open in ledger view
+// ============================================================
+let currentClientId = null;  // ID of ledger-open client
+
+// ============================================================
+// UTILITY: Generate unique ID
+// ============================================================
+function uid() {
+  return Date.now().toString(36) + Math.random().toString(36).substr(2, 6);
+}
+
+// ============================================================
+// UTILITY: Format number as PKR string
+// e.g. 15000 → "PKR 15,000"
+// ============================================================
+function pkr(amount) {
+  if (!amount && amount !== 0) return '—';
+  const n = parseFloat(amount);
+  if (isNaN(n) || n === 0) return 'PKR 0';
+  return 'PKR ' + n.toLocaleString('en-PK', { maximumFractionDigits: 0 });
+}
+
+// ============================================================
+// UTILITY: Format date for display
+// ============================================================
+function fmtDate(d) {
+  if (!d) return '—';
+  try {
+    const parts = d.split('-');
+    const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    return parts[2] + '-' + months[parseInt(parts[1])-1] + '-' + parts[0].substr(2);
+  } catch(e) { return d; }
+}
+
+// ============================================================
+// LOCAL STORAGE — Load helpers
+// ============================================================
+function loadClients()  { try { return JSON.parse(localStorage.getItem(DB_CLIENTS))  || []; } catch(e){ return []; } }
+function loadEntries()  { try { return JSON.parse(localStorage.getItem(DB_ENTRIES))  || []; } catch(e){ return []; } }
+function loadSettings() { try { return JSON.parse(localStorage.getItem(DB_SETTINGS)) || {}; } catch(e){ return {}; } }
+
+// ============================================================
+// LOCAL STORAGE — Save helpers
+// ============================================================
+function saveClients(data)  { localStorage.setItem(DB_CLIENTS,  JSON.stringify(data)); }
+function saveEntries(data)  { localStorage.setItem(DB_ENTRIES,  JSON.stringify(data)); }
+function saveSettingsData(data){ localStorage.setItem(DB_SETTINGS, JSON.stringify(data)); }
+
+// ============================================================
+// PAGE NAVIGATION — show only requested page tab
+// ============================================================
+function showPage(name) {
+  // Hide all pages
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  // Remove active from all nav buttons
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+
+  // Show requested page
+  document.getElementById('page-' + name).classList.add('active');
+
+  // Set active nav button (find by onclick text)
+  document.querySelectorAll('.nav-btn').forEach(b => {
+    if(b.getAttribute('onclick') && b.getAttribute('onclick').includes("'"+name+"'")) {
+      b.classList.add('active');
+    }
+  });
+
+  // Re-render on page show
+  if (name === 'dashboard') renderDashboard();
+  if (name === 'ledger') { populateLedgerClientSelect(); if(currentClientId) loadLedgerForClient(currentClientId); }
+  if (name === 'settings') loadSettingsForm();
+}
+
+// ============================================================
+// TOAST — show popup notification
+// ============================================================
+function showToast(msg, type='') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast show ' + type;
+  setTimeout(() => { t.className = 'toast'; }, 2800);
+}
+
+// ============================================================
+// DASHBOARD — Render all client cards
+// ============================================================
+function renderDashboard() {
+  const clients = loadClients();
+  const entries = loadEntries();
+  const search  = (document.getElementById('clientSearch')?.value || '').toLowerCase();
+  const sortBy  = document.getElementById('clientSortBy')?.value || 'code';
+  const sortDir = document.getElementById('clientSortDir')?.value || 'asc';
+
+  // Calculate balance per client using all their entries
+  const balanceMap = {};
+  let totalDue = 0, totalReceived = 0;
+
+  clients.forEach(c => {
+    const cEntries = entries.filter(e => e.clientId === c.id);
+    // Running balance = sum of all (due - received)
+    let bal = 0;
+    cEntries.forEach(e => {
+      bal += (parseFloat(e.due)||0) - (parseFloat(e.received)||0);
+    });
+    balanceMap[c.id] = bal;
+    totalDue      += cEntries.reduce((s,e) => s + (parseFloat(e.due)||0), 0);
+    totalReceived += cEntries.reduce((s,e) => s + (parseFloat(e.received)||0), 0);
+  });
+
+  // Update stat cards
+  document.getElementById('statClients').textContent  = clients.length;
+  document.getElementById('statDue').textContent      = pkr(totalDue);
+  document.getElementById('statReceived').textContent = pkr(totalReceived);
+  document.getElementById('statBalance').textContent  = pkr(totalDue - totalReceived);
+  document.getElementById('globalBalance').textContent= pkr(totalDue - totalReceived);
+
+  // Filter clients by search
+  let filtered = clients.filter(c =>
+    c.name.toLowerCase().includes(search) ||
+    c.code.toLowerCase().includes(search) ||
+    (c.city||'').toLowerCase().includes(search)
+  );
+
+  // Sort clients
+  filtered.sort((a,b) => {
+    let va, vb;
+    if (sortBy === 'code')    { va = a.code; vb = b.code; }
+    if (sortBy === 'name')    { va = a.name; vb = b.name; }
+    if (sortBy === 'city')    { va = a.city||''; vb = b.city||''; }
+    if (sortBy === 'balance') { va = balanceMap[a.id]||0; vb = balanceMap[b.id]||0; return sortDir==='asc' ? va-vb : vb-va; }
+    if (typeof va === 'string') {
+      return sortDir === 'asc' ? va.localeCompare(vb) : vb.localeCompare(va);
+    }
+    return 0;
+  });
+
+  const grid = document.getElementById('clientsGrid');
+
+  if (filtered.length === 0) {
+    grid.innerHTML = `<div class="empty-state" style="grid-column:1/-1;">
+      <div class="empty-state-icon">👤</div>
+      <div class="empty-state-title">No Clients Yet</div>
+      <div class="empty-state-text">Click "Add Client" to create your first client ledger.</div>
+    </div>`;
+    return;
+  }
+
+  // Build cards HTML
+  grid.innerHTML = filtered.map(c => {
+    const bal = balanceMap[c.id] || 0;
+    const balClass = bal <= 0 ? 'balance-zero' : 'balance-positive';
+    const entCount = entries.filter(e => e.clientId === c.id).length;
+    return `
+    <div class="client-card" onclick="openClientLedger('${c.id}')">
+      <div class="client-card-header">
+        <span class="client-code">${c.code}</span>
+        <span class="client-city-badge">${c.city || 'N/A'}</span>
+      </div>
+      <div class="client-card-body">
+        <div class="client-name">${c.name}</div>
+        <div class="client-balance-row">
+          <span class="balance-label">Balance</span>
+          <span class="balance-value ${balClass}">${pkr(Math.abs(bal))}${bal<0?' CR':''}</span>
+        </div>
+        <div style="margin-top:8px;font-size:11px;color:#888;font-family:var(--font-mono);">${entCount} entries</div>
+      </div>
+      <div class="client-card-footer">
+        <button class="btn btn-primary btn-sm" onclick="event.stopPropagation();openClientLedger('${c.id}')">Open Ledger</button>
+        <button class="btn btn-sm" onclick="event.stopPropagation();editClient('${c.id}')">Edit</button>
+        <button class="btn btn-danger btn-sm" onclick="event.stopPropagation();deleteClient('${c.id}')">Del</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ============================================================
+// OPEN CLIENT LEDGER — navigate to ledger page for a client
+// ============================================================
+function openClientLedger(clientId) {
+  currentClientId = clientId;
+  showPage('ledger');
+}
+
+// ============================================================
+// POPULATE LEDGER CLIENT SELECT DROPDOWN
+// ============================================================
+function populateLedgerClientSelect() {
+  const clients = loadClients();
+  const sel = document.getElementById('ledgerClientSelect');
+  sel.innerHTML = '<option value="">— Select Client —</option>' +
+    clients.map(c => `<option value="${c.id}" ${c.id===currentClientId?'selected':''}>${c.code} — ${c.name}</option>`).join('');
+}
+
+// ============================================================
+// LOAD LEDGER FOR SELECTED CLIENT
+// ============================================================
+function loadLedgerForClient(clientId) {
+  currentClientId = clientId;
+
+  if (!clientId) {
+    document.getElementById('ledgerClientHeader').style.display = 'none';
+    document.getElementById('ledgerEmpty').style.display = 'block';
+    return;
+  }
+
+  const clients = loadClients();
+  const client  = clients.find(c => c.id === clientId);
+  if (!client) return;
+
+  // Show client header
+  document.getElementById('ledgerClientHeader').style.display = 'block';
+  document.getElementById('ledgerEmpty').style.display = 'none';
+  document.getElementById('lhCode').textContent = client.code;
+  document.getElementById('lhName').textContent = client.name;
+  document.getElementById('lhCity').textContent = client.city || '';
+
+  renderLedger();
+}
+
+// ============================================================
+// RENDER LEDGER TABLE for current client
+// ============================================================
+function renderLedger() {
+  if (!currentClientId) return;
+
+  const entries   = loadEntries();
+  const search    = (document.getElementById('entrySearch')?.value || '').toLowerCase();
+  const sortBy    = document.getElementById('entrySortBy')?.value || 'date';
+  const sortDir   = document.getElementById('entrySortDir')?.value || 'asc';
+  const stageFilter = document.getElementById('filterStage')?.value || '';
+
+  // Get only this client's entries
+  let cEntries = entries.filter(e => e.clientId === currentClientId);
+
+  // Apply search filter
+  if (search) {
+    cEntries = cEntries.filter(e =>
+      (e.details||'').toLowerCase().includes(search) ||
+      (e.folder||'').toLowerCase().includes(search) ||
+      (e.tmno||'').toLowerCase().includes(search)
+    );
+  }
+
+  // Apply stage filter
+  if (stageFilter) {
+    cEntries = cEntries.filter(e => e.stage === stageFilter);
+  }
+
+  // Sort entries
+  cEntries.sort((a, b) => {
+    let va, vb;
+    if (sortBy === 'date')     { va = a.date||''; vb = b.date||''; }
+    if (sortBy === 'folder')   { va = a.folder||''; vb = b.folder||''; }
+    if (sortBy === 'stage')    { va = a.stage||''; vb = b.stage||''; }
+    if (sortBy === 'due')      { return sortDir==='asc' ? (parseFloat(a.due)||0)-(parseFloat(b.due)||0) : (parseFloat(b.due)||0)-(parseFloat(a.due)||0); }
+    if (sortBy === 'received') { return sortDir==='asc' ? (parseFloat(a.received)||0)-(parseFloat(b.received)||0) : (parseFloat(b.received)||0)-(parseFloat(a.received)||0); }
+    if (sortBy === 'balance')  { return sortDir==='asc' ? (parseFloat(a.balance)||0)-(parseFloat(b.balance)||0) : (parseFloat(b.balance)||0)-(parseFloat(a.balance)||0); }
+    return sortDir === 'asc' ? va.localeCompare(vb) : vb.localeCompare(va);
+  });
+
+  // Recalculate running balance in display order
+  // Balance = cumulative (due - received) from top
+  let runBalance = 0;
+  const rows = cEntries.map((e, i) => {
+    runBalance += (parseFloat(e.due)||0) - (parseFloat(e.received)||0);
+    e._runBalance = runBalance;
+
+    // Determine row type for highlighting
+    const isOpening  = e.type === 'opening';
+    const isReceived = e.type === 'received' || (parseFloat(e.received)||0) > 0 && (parseFloat(e.due)||0) === 0;
+    const rowClass   = isOpening ? 'opening-row' : isReceived ? 'received-row' : '';
+
+    // Stage badge styling
+    const stageKey   = (e.stage||'').toUpperCase();
+    const stageCls   = ['S1','S2','S3','S4'].includes(stageKey) ? 'stage-'+stageKey.toLowerCase() : 'stage-custom';
+    const stageDisplay = e.customStage || e.stage || '—';
+
+    return `<tr class="${rowClass}" data-id="${e.id}">
+      <td style="font-family:var(--font-mono);font-size:11px;color:#999;">${i+1}</td>
+      <td style="white-space:nowrap;font-size:12px;">${fmtDate(e.date)}</td>
+      <td style="font-family:var(--font-mono);font-size:11px;">${e.folder||'—'}</td>
+      <td>${stageDisplay!=='—' ? `<span class="stage-badge ${stageCls}">${stageDisplay}</span>` : '—'}</td>
+      <td style="font-family:var(--font-mono);font-size:11px;">${e.tmno||'—'}</td>
+      <td style="font-size:12px;text-align:center;">${e.cls||'—'}</td>
+      <td style="max-width:220px;font-size:12px;line-height:1.4;">
+        ${e.details||'—'}
+        ${isReceived?`<br><span class="recv-tag">PAYMENT RECEIVED</span>`:''}
+        ${isOpening?`<br><span style="background:var(--black);color:var(--yellow);padding:1px 6px;font-size:10px;font-weight:700;border:2px solid var(--black);font-family:var(--font-mono);">OPENING BAL</span>`:''}
+      </td>
+      <td class="amount-cell due-amount">${parseFloat(e.due)>0?pkr(e.due):'—'}</td>
+      <td class="amount-cell received-amount">${parseFloat(e.received)>0?pkr(e.received):'—'}</td>
+      <td class="amount-cell balance-amount">${pkr(e._runBalance)}</td>
+      <td style="white-space:nowrap;">
+        <button class="tbl-btn" onclick="editEntry('${e.id}')">Edit</button>
+        <button class="tbl-btn del" onclick="deleteEntry('${e.id}')">Del</button>
+      </td>
+    </tr>`;
+  });
+
+  document.getElementById('ledgerTableBody').innerHTML =
+    rows.length ? rows.join('') :
+    `<tr><td colspan="11" style="text-align:center;padding:32px;color:#888;">No entries found.</td></tr>`;
+
+  // Update balance in the header
+  document.getElementById('lhBalance').textContent = pkr(runBalance);
+  document.getElementById('globalBalance').textContent = (() => {
+    const all = loadEntries();
+    const total = all.reduce((s,e)=>(s + (parseFloat(e.due)||0) - (parseFloat(e.received)||0)),0);
+    return pkr(total);
+  })();
+}
+
+// ============================================================
+// MODAL HELPERS — open and close modals
+// ============================================================
+function openModal(id)  { document.getElementById(id).classList.add('open'); }
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+
+// ============================================================
+// ADD CLIENT MODAL — open with blank form
+// ============================================================
+function openAddClientModal() {
+  document.getElementById('clientModalTitle').textContent = 'Add New Client';
+  document.getElementById('editClientId').value = '';
+  document.getElementById('clientCode').value = '';
+  document.getElementById('clientName').value = '';
+  document.getElementById('clientCity').value = '';
+  document.getElementById('clientOpeningBalance').value = '';
+  openModal('clientModal');
+}
+
+// ============================================================
+// EDIT CLIENT — open modal with existing data
+// ============================================================
+function editClient(clientId) {
+  const clients = loadClients();
+  const c = clients.find(x => x.id === clientId);
+  if (!c) return;
+
+  document.getElementById('clientModalTitle').textContent = 'Edit Client';
+  document.getElementById('editClientId').value = c.id;
+  document.getElementById('clientCode').value   = c.code;
+  document.getElementById('clientName').value   = c.name;
+  document.getElementById('clientCity').value   = c.city || '';
+  document.getElementById('clientOpeningBalance').value = '';
+  openModal('clientModal');
+}
+
+// ============================================================
+// SAVE CLIENT — handles both add and edit
+// ============================================================
+function saveClient() {
+  const id   = document.getElementById('editClientId').value;
+  const code = document.getElementById('clientCode').value.trim().toUpperCase();
+  const name = document.getElementById('clientName').value.trim();
+  const city = document.getElementById('clientCity').value.trim();
+  const ob   = parseFloat(document.getElementById('clientOpeningBalance').value) || 0;
+
+  if (!code || !name) { showToast('Code and Name are required!', 'error'); return; }
+
+  const clients = loadClients();
+  const entries = loadEntries();
+
+  if (id) {
+    // UPDATE existing client
+    const idx = clients.findIndex(c => c.id === id);
+    if (idx > -1) { clients[idx].code = code; clients[idx].name = name; clients[idx].city = city; }
+    saveClients(clients);
+    showToast('Client updated!', 'success');
+  } else {
+    // ADD new client — check duplicate code
+    if (clients.find(c => c.code === code)) { showToast('Client code already exists!', 'error'); return; }
+    const newClient = { id: uid(), code, name, city, createdAt: new Date().toISOString() };
+    clients.push(newClient);
+    saveClients(clients);
+
+    // Add opening balance entry if provided
+    if (ob > 0) {
+      entries.push({
+        id: uid(),
+        clientId: newClient.id,
+        date: new Date().toISOString().split('T')[0],
+        folder: '', stage: '', tmno: '', cls: '',
+        details: 'Opening Balance',
+        due: ob, received: 0, balance: ob,
+        type: 'opening'
+      });
+      saveEntries(entries);
+    }
+    showToast('Client added!', 'success');
+  }
+
+  closeModal('clientModal');
+  renderDashboard();
+}
+
+// ============================================================
+// DELETE CLIENT — removes client and all their entries
+// ============================================================
+function deleteClient(clientId) {
+  if (!confirm('Delete this client and ALL their entries? This cannot be undone.')) return;
+  let clients = loadClients();
+  let entries = loadEntries();
+  clients = clients.filter(c => c.id !== clientId);
+  entries = entries.filter(e => e.clientId !== clientId);
+  saveClients(clients);
+  saveEntries(entries);
+  showToast('Client deleted.', 'error');
+  if (currentClientId === clientId) currentClientId = null;
+  renderDashboard();
+}
+
+// ============================================================
+// ADD ENTRY MODAL — open with blank form for current client
+// ============================================================
+function openAddEntryModal() {
+  if (!currentClientId) { showToast('Select a client first!', 'error'); return; }
+
+  document.getElementById('entryModalTitle').textContent = 'Add Ledger Entry';
+  document.getElementById('editEntryId').value = '';
+  document.getElementById('entryDate').value = new Date().toISOString().split('T')[0];
+  document.getElementById('entryFolder').value = '';
+  document.getElementById('entryStage').value = 'S1';
+  document.getElementById('entryTM').value = '';
+  document.getElementById('entryClass').value = '';
+  document.getElementById('entryDetails').value = '';
+  document.getElementById('entryDue').value = '';
+  document.getElementById('entryReceived').value = '';
+  document.getElementById('entryBalance').value = '';
+  document.getElementById('entryType').value = 'normal';
+  document.getElementById('customStageGroup').style.display = 'none';
+  document.getElementById('entryCustomStage').value = '';
+
+  openModal('entryModal');
+}
+
+// ============================================================
+// EDIT ENTRY — open modal with existing entry data
+// ============================================================
+function editEntry(entryId) {
+  const entries = loadEntries();
+  const e = entries.find(x => x.id === entryId);
+  if (!e) return;
+
+  document.getElementById('entryModalTitle').textContent = 'Edit Entry';
+  document.getElementById('editEntryId').value = e.id;
+  document.getElementById('entryDate').value    = e.date || '';
+  document.getElementById('entryFolder').value  = e.folder || '';
+  document.getElementById('entryTM').value      = e.tmno || '';
+  document.getElementById('entryClass').value   = e.cls || '';
+  document.getElementById('entryDetails').value = e.details || '';
+  document.getElementById('entryDue').value      = e.due || '';
+  document.getElementById('entryReceived').value = e.received || '';
+  document.getElementById('entryBalance').value  = e.balance || '';
+  document.getElementById('entryType').value     = e.type || 'normal';
+
+  // Handle custom stage
+  const knownStages = ['S1','S2','S3','S4'];
+  if (knownStages.includes(e.stage)) {
+    document.getElementById('entryStage').value = e.stage;
+    document.getElementById('customStageGroup').style.display = 'none';
+  } else if (e.stage) {
+    document.getElementById('entryStage').value = 'CUSTOM';
+    document.getElementById('entryCustomStage').value = e.customStage || e.stage;
+    document.getElementById('customStageGroup').style.display = 'block';
+  }
+
+  openModal('entryModal');
+}
+
+// ============================================================
+// SAVE ENTRY — add or update ledger entry
+// ============================================================
+function saveEntry() {
+  if (!currentClientId) return;
+
+  const id       = document.getElementById('editEntryId').value;
+  const date     = document.getElementById('entryDate').value;
+  const folder   = document.getElementById('entryFolder').value.trim();
+  const stageRaw = document.getElementById('entryStage').value;
+  const customSt = document.getElementById('entryCustomStage').value.trim();
+  const stage    = stageRaw === 'CUSTOM' ? customSt || 'CUSTOM' : stageRaw;
+  const tmno     = document.getElementById('entryTM').value.trim();
+  const cls      = document.getElementById('entryClass').value;
+  const details  = document.getElementById('entryDetails').value.trim();
+  const due      = parseFloat(document.getElementById('entryDue').value) || 0;
+  const received = parseFloat(document.getElementById('entryReceived').value) || 0;
+  const type     = document.getElementById('entryType').value;
+
+  if (!date) { showToast('Date is required!', 'error'); return; }
+
+  let entries = loadEntries();
+
+  if (id) {
+    // UPDATE existing entry
+    const idx = entries.findIndex(e => e.id === id);
+    if (idx > -1) {
+      entries[idx] = { ...entries[idx], date, folder, stage,
+        customStage: stageRaw==='CUSTOM'?customSt:'',
+        tmno, cls, details, due, received, type };
+    }
+    showToast('Entry updated!', 'success');
+  } else {
+    // ADD new entry
+    entries.push({
+      id: uid(), clientId: currentClientId,
+      date, folder, stage,
+      customStage: stageRaw==='CUSTOM'?customSt:'',
+      tmno, cls, details, due, received,
+      balance: due - received, type
+    });
+    showToast('Entry added!', 'success');
+  }
+
+  saveEntries(entries);
+  closeModal('entryModal');
+  renderLedger();
+}
+
+// ============================================================
+// DELETE ENTRY
+// ============================================================
+function deleteEntry(entryId) {
+  if (!confirm('Delete this entry?')) return;
+  let entries = loadEntries().filter(e => e.id !== entryId);
+  saveEntries(entries);
+  showToast('Entry deleted.', 'error');
+  renderLedger();
+}
+
+// ============================================================
+// CALC BALANCE — live update in entry modal
+// ============================================================
+function calcBalance() {
+  const due = parseFloat(document.getElementById('entryDue').value)||0;
+  const rec = parseFloat(document.getElementById('entryReceived').value)||0;
+  document.getElementById('entryBalance').value = due - rec;
+}
+
+// ============================================================
+// TOGGLE CUSTOM STAGE input visibility
+// ============================================================
+function toggleCustomStage() {
+  const v = document.getElementById('entryStage').value;
+  document.getElementById('customStageGroup').style.display = v === 'CUSTOM' ? 'block' : 'none';
+}
+
+// ============================================================
+// TOGGLE ENTRY TYPE — auto-fill fields for Payment Received
+// ============================================================
+function toggleEntryType() {
+  const t = document.getElementById('entryType').value;
+  if (t === 'received') {
+    document.getElementById('entryDetails').value = 'PAYMENT RECEIVED';
+    document.getElementById('entryDue').value = 0;
+  }
+  if (t === 'opening') {
+    document.getElementById('entryDetails').value = 'Opening Balance';
+  }
+}
+
+// ============================================================
+// SETTINGS — Load saved values into form fields
+// ============================================================
+function loadSettingsForm() {
+  const s = loadSettings();
+  document.getElementById('setFirmName').value   = s.firmName   || '';
+  document.getElementById('setAddress').value    = s.address    || '';
+  document.getElementById('setPhone').value      = s.phone      || '';
+  document.getElementById('setEmail').value      = s.email      || '';
+  document.getElementById('setBankName').value   = s.bankName   || '';
+  document.getElementById('setBankAccount').value= s.bankAccount|| '';
+  document.getElementById('setBankIBAN').value   = s.bankIBAN   || '';
+  document.getElementById('setBankTitle').value  = s.bankTitle  || '';
+
+  // Load logo preview if saved
+  if (s.logoBase64) {
+    const img = document.getElementById('logoPreviewImg');
+    img.src = s.logoBase64;
+    img.style.display = 'block';
+    document.getElementById('logoUploadText').style.display = 'none';
+  }
+}
+
+// ============================================================
+// SETTINGS — Save form values to localStorage
+// ============================================================
+function saveSettings() {
+  const s = loadSettings();
+  s.firmName    = document.getElementById('setFirmName').value.trim();
+  s.address     = document.getElementById('setAddress').value.trim();
+  s.phone       = document.getElementById('setPhone').value.trim();
+  s.email       = document.getElementById('setEmail').value.trim();
+  s.bankName    = document.getElementById('setBankName').value.trim();
+  s.bankAccount = document.getElementById('setBankAccount').value.trim();
+  s.bankIBAN    = document.getElementById('setBankIBAN').value.trim();
+  s.bankTitle   = document.getElementById('setBankTitle').value.trim();
+
+  saveSettingsData(s);
+
+  // Apply firm name to topbar display
+  if (s.firmName) {
+    document.getElementById('firmNameDisplay').innerHTML =
+      s.firmName.replace(' ', '<br>');
+  }
+
+  showToast('Settings saved!', 'success');
+}
+
+// ============================================================
+// LOGO UPLOAD — convert to base64 and save in settings
+// ============================================================
+function handleLogoUpload(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  // Check file size — don't store files over 500KB
+  if (file.size > 500 * 1024) { showToast('Logo too large (max 500KB)', 'error'); return; }
+
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    const b64 = e.target.result;
+
+    // Show preview
+    const img = document.getElementById('logoPreviewImg');
+    img.src = b64;
+    img.style.display = 'block';
+    document.getElementById('logoUploadText').style.display = 'none';
+
+    // Also update topbar logo
+    updateTopbarLogo(b64);
+
+    // Save into settings
+    const s = loadSettings();
+    s.logoBase64 = b64;
+    saveSettingsData(s);
+
+    showToast('Logo uploaded!', 'success');
+  };
+  reader.readAsDataURL(file);
+}
+
+// ============================================================
+// REMOVE LOGO
+// ============================================================
+function removeLogo() {
+  const s = loadSettings();
+  delete s.logoBase64;
+  saveSettingsData(s);
+  document.getElementById('logoPreviewImg').style.display = 'none';
+  document.getElementById('logoPreviewImg').src = '';
+  document.getElementById('logoUploadText').style.display = 'block';
+  resetTopbarLogo();
+  showToast('Logo removed.', 'error');
+}
+
+// ============================================================
+// TOPBAR LOGO helpers — show/hide image vs placeholder
+// ============================================================
+function updateTopbarLogo(base64) {
+  const el = document.getElementById('logoDisplay');
+  el.innerHTML = `<img src="${base64}" style="width:44px;height:44px;object-fit:contain;border:3px solid #0a0a0a;background:white;padding:2px;">`;
+  el.className = '';
+}
+function resetTopbarLogo() {
+  const el = document.getElementById('logoDisplay');
+  el.className = 'logo-placeholder';
+  const s = loadSettings();
+  el.textContent = (s.firmName||'B').charAt(0).toUpperCase();
+}
+
+// ============================================================
+// EXPORT DATA — download JSON backup
+// ============================================================
+function exportData() {
+  const data = {
+    clients:  loadClients(),
+    entries:  loadEntries(),
+    settings: loadSettings(),
+    exportedAt: new Date().toISOString()
+  };
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  a.href = url;
+  a.download = 'BrandEx-Ledger-Backup-' + new Date().toISOString().split('T')[0] + '.json';
+  a.click();
+  URL.revokeObjectURL(url);
+  showToast('Backup exported!', 'success');
+}
+
+// ============================================================
+// IMPORT DATA — restore from JSON backup
+// ============================================================
+function importData(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      const data = JSON.parse(e.target.result);
+      if (data.clients)  saveClients(data.clients);
+      if (data.entries)  saveEntries(data.entries);
+      if (data.settings) saveSettingsData(data.settings);
+      renderDashboard();
+      loadSettingsForm();
+      applySettings();
+      showToast('Data imported successfully!', 'success');
+    } catch(err) {
+      showToast('Invalid backup file!', 'error');
+    }
+  };
+  reader.readAsText(file);
+}
+
+// ============================================================
+// CLEAR ALL DATA
+// ============================================================
+function confirmClearData() {
+  if (!confirm('CLEAR ALL DATA? This deletes ALL clients, entries, and settings permanently!')) return;
+  if (!confirm('Are you ABSOLUTELY SURE?')) return;
+  localStorage.removeItem(DB_CLIENTS);
+  localStorage.removeItem(DB_ENTRIES);
+  localStorage.removeItem(DB_SETTINGS);
+  renderDashboard();
+  loadSettingsForm();
+  resetTopbarLogo();
+  document.getElementById('firmNameDisplay').innerHTML = 'BrandEx<br>Law Associates';
+  showToast('All data cleared.', 'error');
+}
+
+// ============================================================
+// APPLY SETTINGS ON APP LOAD
+// Restore logo and firm name from saved settings
+// ============================================================
+function applySettings() {
+  const s = loadSettings();
+  if (s.firmName) {
+    document.getElementById('firmNameDisplay').innerHTML =
+      s.firmName.replace(' ','<br>');
+  }
+  if (s.logoBase64) {
+    updateTopbarLogo(s.logoBase64);
+  }
+}
+
+// ============================================================
+// POPULATE CLASS DROPDOWN (1 to 45)
+// ============================================================
+function populateClassDropdown() {
+  const sel = document.getElementById('entryClass');
+  sel.innerHTML = '<option value="">— Select Class —</option>';
+  for (let i = 1; i <= 45; i++) {
+    sel.innerHTML += `<option value="${i}">Class ${i}</option>`;
+  }
+}
+
+// ============================================================
+// APP INIT — runs on page load
+// ============================================================
+function init() {
+  populateClassDropdown();  // Fill class 1-45
+  applySettings();          // Restore logo & firm name
+  renderDashboard();        // Show client cards
+}
+
+// Start app
+init();
+
+</script>
+</body>
+</html>
