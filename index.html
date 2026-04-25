@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>BrandEx Ledger</title>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700;900&family=IBM+Plex+Mono:wght@400;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/sql-wasm.js"></script>
+<script src="https://apis.google.com/js/api.js"></script>
+<script async defer src="https://accounts.google.com/gsi/client"></script>
 <style>
 
 /* ============================================================
@@ -685,241 +688,13 @@ body {
   font-family: var(--font-mono);
 }
 
-/* ============================================================
-   RESPONSIVE DESIGN — Mobile & Tablet
-   ============================================================ */
-
-/* Tablet — 768px and below */
-@media (max-width: 768px) {
-  .topbar {
-    flex-wrap: wrap;
-    padding: 0 16px;
-  }
-  .topbar-logo {
-    min-width: auto;
-    border: none;
-    padding: 10px 0;
-    flex: 1;
-  }
-  .topbar-logo img {
-    width: 36px;
-    height: 36px;
-  }
-  .topbar-logo .logo-placeholder {
-    width: 36px;
-    height: 36px;
-    font-size: 14px;
-  }
-  .topbar-logo .firm-name {
-    font-size: 11px;
-  }
-  .topbar-nav {
-    padding: 0;
-    flex: 1;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-  }
-  .nav-btn {
-    padding: 0 12px;
-    font-size: 11px;
-    white-space: nowrap;
-  }
-  .topbar-right {
-    border: none;
-    padding: 10px 0;
-    flex: 1;
-    justify-content: flex-end;
-  }
-  .total-badge {
-    font-size: 11px;
-    padding: 4px 10px;
-  }
-  .section-title {
-    font-size: 22px;
-  }
-  .dashboard-stats {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
-  }
-  .clients-grid {
-    grid-template-columns: 1fr;
-  }
-  .settings-grid {
-    grid-template-columns: 1fr;
-  }
-  .modal {
-    max-width: 100%;
-    margin: 0;
-  }
-  .modal-overlay {
-    padding: 20px 12px;
-  }
-}
-
-/* Mobile — 480px and below */
-@media (max-width: 480px) {
-  .topbar {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 8px;
-    padding: 12px;
-  }
-  .topbar-logo {
-    border-bottom: var(--border);
-    padding: 8px 0 12px 0;
-  }
-  .topbar-nav {
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 4px;
-  }
-  .nav-btn {
-    flex: 1;
-    min-width: 80px;
-    padding: 8px 10px;
-    font-size: 10px;
-    text-align: center;
-  }
-  .topbar-right {
-    border-top: var(--border);
-    padding: 12px 0 0 0;
-    justify-content: center;
-  }
-  .topbar-right > div {
-    text-align: center;
-  }
-  .page {
-    padding: 16px 12px;
-  }
-  .section-header {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 12px;
-  }
-  .section-title {
-    font-size: 20px;
-    text-align: center;
-  }
-  .dashboard-stats {
-    grid-template-columns: 1fr;
-    gap: 10px;
-  }
-  .stat-card {
-    padding: 12px 16px;
-  }
-  .stat-card .stat-value {
-    font-size: 18px;
-  }
-  .filter-bar {
-    flex-direction: column;
-    align-items: stretch;
-  }
-  .filter-bar input,
-  .filter-bar select {
-    width: 100%;
-  }
-  .client-card {
-    box-shadow: 2px 2px 0 var(--black);
-  }
-  .client-card:hover {
-    transform: none;
-    box-shadow: 2px 2px 0 var(--black);
-  }
-  .client-card-footer {
-    flex-wrap: wrap;
-  }
-  .client-card-footer .btn {
-    flex: 1;
-    min-width: 80px;
-    justify-content: center;
-  }
-  .ledger-client-header {
-    flex-direction: column;
-    align-items: stretch;
-    text-align: center;
-    gap: 12px;
-  }
-  .ledger-client-info {
-    align-items: center;
-  }
-  .ledger-client-name {
-    font-size: 18px;
-  }
-  .ledger-balance-display {
-    text-align: center;
-  }
-  .ledger-balance-amount {
-    font-size: 22px;
-  }
-  .ledger-table {
-    font-size: 11px;
-    min-width: 700px;
-  }
-  .ledger-table th,
-  .ledger-table td {
-    padding: 8px 6px;
-  }
-  .ledger-table th:nth-child(n+8),
-  .ledger-table td:nth-child(n+8) {
-    padding: 8px 4px;
-  }
-  .btn {
-    padding: 8px 16px;
-    font-size: 12px;
-  }
-  .btn-sm {
-    padding: 5px 10px;
-    font-size: 10px;
-  }
-  .form-row {
-    grid-template-columns: 1fr;
-    gap: 12px;
-  }
-  .modal {
-    max-height: 90vh;
-    overflow-y: auto;
-  }
-  .modal-header {
-    padding: 12px 16px;
-  }
-  .modal-body {
-    padding: 16px;
-  }
-  .modal-footer {
-    flex-direction: column;
-    padding: 12px 16px;
-  }
-  .modal-footer .btn {
-    width: 100%;
-    justify-content: center;
-  }
-  .toast {
-    left: 12px;
-    right: 12px;
-    bottom: 12px;
-    max-width: none;
-    font-size: 12px;
-    padding: 10px 16px;
-  }
-  .empty-state {
-    padding: 40px 16px;
-  }
-  .empty-state-icon {
-    font-size: 36px;
-  }
-  .empty-state-title {
-    font-size: 16px;
-  }
-}
-
-/* Large Desktop — 1400px and above */
-@media (min-width: 1400px) {
-  .clients-grid {
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  }
-  .dashboard-stats {
-    grid-template-columns: repeat(4, 1fr);
-  }
+/* Mobile responsiveness */
+@media (max-width: 640px) {
+  .topbar { flex-wrap: wrap; }
+  .topbar-logo { min-width: auto; border: none; padding: 10px 0; }
+  .topbar-right { border: none; padding: 10px 0; }
+  .topbar-nav { padding: 0; }
+  .form-row { grid-template-columns: 1fr; }
 }
 </style>
 </head>
@@ -1168,9 +943,20 @@ body {
     <div class="settings-card">
       <div class="settings-card-header">💾 Data Management</div>
       <div class="settings-card-body">
-        <p style="font-size:13px;color:#555;margin-bottom:16px;">All data is stored in your browser's Local Storage. Export regularly as backup.</p>
+        <p style="font-size:13px;color:#555;margin-bottom:16px;">Data is stored locally in SQLite database with Google Drive sync support.</p>
+        
+        <div style="margin-bottom:16px;padding:12px;background:#fff;border:2px solid var(--black);">
+          <div style="font-weight:700;margin-bottom:8px;">☁️ Google Drive Sync</div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <button class="btn btn-blue" onclick="handleAuthClick()" id="gdriveConnectBtn">🔗 Connect</button>
+            <button class="btn btn-danger" onclick="handleSignoutClick()" id="gdriveDisconnectBtn" style="display:none;">🔌 Disconnect</button>
+            <button class="btn btn-yellow" onclick="uploadToDrive()" id="gdriveUploadBtn">⬆ Backup to Drive</button>
+            <button class="btn btn-green" onclick="downloadFromDrive()" id="gdriveDownloadBtn">⬇ Restore from Drive</button>
+          </div>
+        </div>
+        
         <div style="display:flex;flex-direction:column;gap:10px;">
-          <button class="btn btn-yellow" onclick="exportData()">⬇ Export Backup (JSON)</button>
+          <button class="btn" onclick="exportData()">⬇ Export Backup (JSON)</button>
           <button class="btn" onclick="document.getElementById('importInput').click()">⬆ Import Backup (JSON)</button>
           <input type="file" id="importInput" accept=".json" style="display:none;" onchange="importData(event)">
           <button class="btn btn-danger" onclick="confirmClearData()">✕ Clear ALL Data</button>
@@ -1377,6 +1163,367 @@ function saveEntries(data)  { localStorage.setItem(DB_ENTRIES,  JSON.stringify(d
 function saveSettingsData(data){ localStorage.setItem(DB_SETTINGS, JSON.stringify(data)); }
 
 // ============================================================
+// SQLITE DATABASE — Local Database Storage
+// ============================================================
+let db = null;
+let SQL = null;
+const DB_NAME = 'c-ledger.db';
+
+async function initSQLite() {
+  try {
+    SQL = await initSqlJs({
+      locateFile: file => `https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/${file}`
+    });
+    
+    // Try to load existing database from IndexedDB
+    const savedDb = localStorage.getItem(DB_NAME);
+    if (savedDb) {
+      const u8 = new Uint8Array(JSON.parse(savedDb));
+      db = new SQL.Database(u8);
+    } else {
+      db = new SQL.Database();
+      createTables();
+    }
+    console.log('SQLite initialized successfully');
+    return true;
+  } catch (e) {
+    console.error('SQLite initialization failed:', e);
+    return false;
+  }
+}
+
+function createTables() {
+  db.run(`
+    CREATE TABLE IF NOT EXISTS clients (
+      id TEXT PRIMARY KEY,
+      code TEXT,
+      name TEXT,
+      city TEXT,
+      opening_balance REAL,
+      created_at TEXT
+    )
+  `);
+  
+  db.run(`
+    CREATE TABLE IF NOT EXISTS entries (
+      id TEXT PRIMARY KEY,
+      client_id TEXT,
+      date TEXT,
+      folder TEXT,
+      stage TEXT,
+      particulars TEXT,
+      paid_amount REAL,
+      received_amount REAL,
+      balance REAL,
+      created_at TEXT,
+      FOREIGN KEY (client_id) REFERENCES clients(id)
+    )
+  `);
+  
+  db.run(`
+    CREATE TABLE IF NOT EXISTS settings (
+      key TEXT PRIMARY KEY,
+      value TEXT
+    )
+  `);
+}
+
+function saveDbToStorage() {
+  if (!db) return;
+  const data = db.export();
+  const arr = Array.from(data);
+  localStorage.setItem(DB_NAME, JSON.stringify(arr));
+}
+
+// SQLite CRUD operations
+function dbGetClients() {
+  if (!db) return loadClients();
+  const result = db.exec('SELECT * FROM clients ORDER BY code');
+  if (result.length === 0) return [];
+  const cols = result[0].columns;
+  return result[0].values.map(row => {
+    const obj = {};
+    cols.forEach((col, i) => obj[col] = row[i]);
+    return obj;
+  });
+}
+
+function dbGetEntries(clientId = null) {
+  if (!db) return loadEntries();
+  let query = 'SELECT * FROM entries';
+  if (clientId) {
+    query += ' WHERE client_id = ? ORDER BY date';
+    const result = db.exec(query, [clientId]);
+    if (result.length === 0) return [];
+    const cols = result[0].columns;
+    return result[0].values.map(row => {
+      const obj = {};
+      cols.forEach((col, i) => obj[col] = row[i]);
+      return obj;
+    });
+  } else {
+    query += ' ORDER BY date';
+    const result = db.exec(query);
+    if (result.length === 0) return [];
+    const cols = result[0].columns;
+    return result[0].values.map(row => {
+      const obj = {};
+      cols.forEach((col, i) => obj[col] = row[i]);
+      return obj;
+    });
+  }
+}
+
+function dbSaveClient(client) {
+  if (!db) { saveClients(loadClients().concat(client)); return; }
+  const stmt = db.prepare('INSERT OR REPLACE INTO clients (id, code, name, city, opening_balance, created_at) VALUES (?, ?, ?, ?, ?, ?)');
+  stmt.run([client.id, client.code, client.name, client.city, client.opening_balance, client.created_at || new Date().toISOString()]);
+  stmt.free();
+  saveDbToStorage();
+}
+
+function dbDeleteClient(id) {
+  if (!db) { saveClients(loadClients().filter(c => c.id !== id)); return; }
+  db.run('DELETE FROM entries WHERE client_id = ?', [id]);
+  db.run('DELETE FROM clients WHERE id = ?', [id]);
+  saveDbToStorage();
+}
+
+function dbSaveEntry(entry) {
+  if (!db) { saveEntries(loadEntries().concat(entry)); return; }
+  const stmt = db.prepare('INSERT OR REPLACE INTO entries (id, client_id, date, folder, stage, particulars, paid_amount, received_amount, balance, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
+  stmt.run([entry.id, entry.client_id, entry.date, entry.folder, entry.stage, entry.particulars, entry.paid_amount, entry.received_amount, entry.balance, entry.created_at || new Date().toISOString()]);
+  stmt.free();
+  saveDbToStorage();
+}
+
+function dbDeleteEntry(id) {
+  if (!db) { saveEntries(loadEntries().filter(e => e.id !== id)); return; }
+  db.run('DELETE FROM entries WHERE id = ?', [id]);
+  saveDbToStorage();
+}
+
+function dbGetSettings() {
+  if (!db) return loadSettings();
+  const result = db.exec('SELECT * FROM settings');
+  if (result.length === 0) return {};
+  const cols = result[0].columns;
+  const settings = {};
+  result[0].values.forEach(row => {
+    const obj = {};
+    cols.forEach((col, i) => obj[col] = row[i]);
+    settings[obj.key] = JSON.parse(obj.value);
+  });
+  return settings;
+}
+
+function dbSaveSettings(settings) {
+  if (!db) { saveSettingsData(settings); return; }
+  db.run('DELETE FROM settings');
+  const stmt = db.prepare('INSERT INTO settings (key, value) VALUES (?, ?)');
+  Object.keys(settings).forEach(key => {
+    stmt.run([key, JSON.stringify(settings[key])]);
+  });
+  stmt.free();
+  saveDbToStorage();
+}
+
+// ============================================================
+// GOOGLE DRIVE API — Cloud Storage & Sync
+// ============================================================
+const GDRIVE_CLIENT_ID = 'YOUR_GOOGLE_CLIENT_ID'; // Replace with your Google Client ID
+const GDRIVE_API_KEY = 'YOUR_GOOGLE_API_KEY'; // Replace with your Google API Key
+const GDRIVE_APP_ID = 'YOUR_GOOGLE_APP_ID'; // Replace with your Google App ID
+let tokenClient = null;
+let gapiInited = false;
+let gisInited = false;
+let accessToken = null;
+let driveFileId = null;
+
+function gapiLoaded() {
+  gapi.load('client', initializeGapiClient);
+}
+
+async function initializeGapiClient() {
+  await gapi.client.init({
+    apiKey: GDRIVE_API_KEY,
+    discoveryDocs: ['https://www.googleapis.com/discovery/v1/apis/drive/v3/rest'],
+  });
+  gapiInited = true;
+  console.log('Google API client initialized');
+}
+
+function gisLoaded() {
+  tokenClient = google.accounts.oauth2.initTokenClient({
+    client_id: GDRIVE_CLIENT_ID,
+    scope: 'https://www.googleapis.com/auth/drive.file',
+    callback: '', // defined later
+  });
+  gisInited = true;
+  console.log('Google Identity Services initialized');
+}
+
+function handleAuthClick() {
+  tokenClient.callback = async (resp) => {
+    if (resp.error !== undefined) {
+      console.error('Auth error:', resp);
+      return;
+    }
+    accessToken = tokenClient.accessToken;
+    showToast('Connected to Google Drive!', 'success');
+    checkForExistingBackup();
+  };
+
+  if (accessToken === null) {
+    tokenClient.requestAccessToken({prompt: 'consent'});
+  } else {
+    tokenClient.requestAccessToken({prompt: ''});
+  }
+}
+
+function handleSignoutClick() {
+  if (accessToken) {
+    google.accounts.oauth2.revoke(accessToken);
+    accessToken = null;
+    driveFileId = null;
+    showToast('Disconnected from Google Drive');
+  }
+}
+
+async function checkForExistingBackup() {
+  if (!accessToken || !gapiInited) return;
+  
+  try {
+    const response = await gapi.client.drive.files.list({
+      q: "name='c-ledger-backup.json' and trashed=false",
+      fields: 'files(id, modifiedTime)',
+    });
+    
+    if (response.result.files.length > 0) {
+      driveFileId = response.result.files[0].id;
+      const modifiedTime = new Date(response.result.files[0].modifiedTime);
+      showToast(`Found backup from ${modifiedTime.toLocaleDateString()}`, 'success');
+    }
+  } catch (e) {
+    console.error('Error checking for backup:', e);
+  }
+}
+
+async function uploadToDrive() {
+  if (!accessToken || !gapiInited) {
+    showToast('Please connect to Google Drive first', 'error');
+    return;
+  }
+
+  try {
+    const data = {
+      clients: db ? dbGetClients() : loadClients(),
+      entries: db ? dbGetEntries() : loadEntries(),
+      settings: db ? dbGetSettings() : loadSettings(),
+      timestamp: new Date().toISOString()
+    };
+    
+    const fileContent = JSON.stringify(data, null, 2);
+    const file = new Blob([fileContent], {type: 'application/json'});
+    const metadata = {
+      name: 'c-ledger-backup.json',
+      mimeType: 'application/json'
+    };
+
+    let response;
+    if (driveFileId) {
+      // Update existing file
+      response = await gapi.client.drive.files.update({
+        fileId: driveFileId,
+        resource: metadata,
+        media: {body: file}
+      });
+    } else {
+      // Create new file
+      response = await gapi.client.drive.files.create({
+        resource: metadata,
+        media: {body: file}
+      });
+      driveFileId = response.result.id;
+    }
+    
+    showToast('Backup uploaded to Google Drive!', 'success');
+  } catch (e) {
+    console.error('Upload error:', e);
+    showToast('Failed to upload backup', 'error');
+  }
+}
+
+async function downloadFromDrive() {
+  if (!accessToken || !gapiInited) {
+    showToast('Please connect to Google Drive first', 'error');
+    return;
+  }
+
+  if (!driveFileId) {
+    showToast('No backup found on Google Drive', 'error');
+    return;
+  }
+
+  try {
+    const response = await gapi.client.drive.files.get({
+      fileId: driveFileId,
+      alt: 'media'
+    });
+    
+    const data = JSON.parse(response.body);
+    
+    // Import data
+    if (db) {
+      // Clear existing data
+      db.run('DELETE FROM entries');
+      db.run('DELETE FROM clients');
+      db.run('DELETE FROM settings');
+      
+      // Import clients
+      if (data.clients) {
+        const stmt = db.prepare('INSERT INTO clients (id, code, name, city, opening_balance, created_at) VALUES (?, ?, ?, ?, ?, ?)');
+        data.clients.forEach(c => {
+          stmt.run([c.id, c.code, c.name, c.city, c.opening_balance, c.created_at]);
+        });
+        stmt.free();
+      }
+      
+      // Import entries
+      if (data.entries) {
+        const stmt = db.prepare('INSERT INTO entries (id, client_id, date, folder, stage, particulars, paid_amount, received_amount, balance, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
+        data.entries.forEach(e => {
+          stmt.run([e.id, e.client_id, e.date, e.folder, e.stage, e.particulars, e.paid_amount, e.received_amount, e.balance, e.created_at]);
+        });
+        stmt.free();
+      }
+      
+      // Import settings
+      if (data.settings) {
+        const stmt = db.prepare('INSERT INTO settings (key, value) VALUES (?, ?)');
+        Object.keys(data.settings).forEach(key => {
+          stmt.run([key, JSON.stringify(data.settings[key])]);
+        });
+        stmt.free();
+      }
+      
+      saveDbToStorage();
+    } else {
+      // Fallback to LocalStorage
+      if (data.clients) saveClients(data.clients);
+      if (data.entries) saveEntries(data.entries);
+      if (data.settings) saveSettingsData(data.settings);
+    }
+    
+    showToast('Data restored from Google Drive!', 'success');
+    renderDashboard();
+  } catch (e) {
+    console.error('Download error:', e);
+    showToast('Failed to download backup', 'error');
+  }
+}
+
+// ============================================================
 // PAGE NAVIGATION — show only requested page tab
 // ============================================================
 function showPage(name) {
@@ -1415,8 +1562,8 @@ function showToast(msg, type='') {
 // DASHBOARD — Render all client cards
 // ============================================================
 function renderDashboard() {
-  const clients = loadClients();
-  const entries = loadEntries();
+  const clients = dbGetClients();
+  const entries = dbGetEntries();
   const search  = (document.getElementById('clientSearch')?.value || '').toLowerCase();
   const sortBy  = document.getElementById('clientSortBy')?.value || 'code';
   const sortDir = document.getElementById('clientSortDir')?.value || 'asc';
@@ -1515,7 +1662,7 @@ function openClientLedger(clientId) {
 // POPULATE LEDGER CLIENT SELECT DROPDOWN
 // ============================================================
 function populateLedgerClientSelect() {
-  const clients = loadClients();
+  const clients = dbGetClients();
   const sel = document.getElementById('ledgerClientSelect');
   sel.innerHTML = '<option value="">— Select Client —</option>' +
     clients.map(c => `<option value="${c.id}" ${c.id===currentClientId?'selected':''}>${c.code} — ${c.name}</option>`).join('');
@@ -1533,7 +1680,7 @@ function loadLedgerForClient(clientId) {
     return;
   }
 
-  const clients = loadClients();
+  const clients = dbGetClients();
   const client  = clients.find(c => c.id === clientId);
   if (!client) return;
 
@@ -1553,7 +1700,7 @@ function loadLedgerForClient(clientId) {
 function renderLedger() {
   if (!currentClientId) return;
 
-  const entries   = loadEntries();
+  const entries   = dbGetEntries();
   const search    = (document.getElementById('entrySearch')?.value || '').toLowerCase();
   const sortBy    = document.getElementById('entrySortBy')?.value || 'date';
   const sortDir   = document.getElementById('entrySortDir')?.value || 'asc';
@@ -1634,7 +1781,7 @@ function renderLedger() {
   // Update balance in the header
   document.getElementById('lhBalance').textContent = pkr(runBalance);
   document.getElementById('globalBalance').textContent = (() => {
-    const all = loadEntries();
+    const all = dbGetEntries();
     const total = all.reduce((s,e)=>(s + (parseFloat(e.due)||0) - (parseFloat(e.received)||0)),0);
     return pkr(total);
   })();
@@ -1688,34 +1835,38 @@ function saveClient() {
 
   if (!code || !name) { showToast('Code and Name are required!', 'error'); return; }
 
-  const clients = loadClients();
-  const entries = loadEntries();
+  const clients = dbGetClients();
+  const entries = dbGetEntries();
 
   if (id) {
     // UPDATE existing client
     const idx = clients.findIndex(c => c.id === id);
-    if (idx > -1) { clients[idx].code = code; clients[idx].name = name; clients[idx].city = city; }
-    saveClients(clients);
+    if (idx > -1) { 
+      clients[idx].code = code; 
+      clients[idx].name = name; 
+      clients[idx].city = city;
+      dbSaveClient(clients[idx]);
+    }
     showToast('Client updated!', 'success');
   } else {
     // ADD new client — check duplicate code
     if (clients.find(c => c.code === code)) { showToast('Client code already exists!', 'error'); return; }
-    const newClient = { id: uid(), code, name, city, createdAt: new Date().toISOString() };
-    clients.push(newClient);
-    saveClients(clients);
+    const newClient = { id: uid(), code, name, city, opening_balance: 0, createdAt: new Date().toISOString() };
+    dbSaveClient(newClient);
 
     // Add opening balance entry if provided
     if (ob > 0) {
-      entries.push({
+      const newEntry = {
         id: uid(),
         clientId: newClient.id,
         date: new Date().toISOString().split('T')[0],
         folder: '', stage: '', tmno: '', cls: '',
         details: 'Opening Balance',
         due: ob, received: 0, balance: ob,
-        type: 'opening'
-      });
-      saveEntries(entries);
+        type: 'opening',
+        created_at: new Date().toISOString()
+      };
+      dbSaveEntry(newEntry);
     }
     showToast('Client added!', 'success');
   }
@@ -1729,12 +1880,7 @@ function saveClient() {
 // ============================================================
 function deleteClient(clientId) {
   if (!confirm('Delete this client and ALL their entries? This cannot be undone.')) return;
-  let clients = loadClients();
-  let entries = loadEntries();
-  clients = clients.filter(c => c.id !== clientId);
-  entries = entries.filter(e => e.clientId !== clientId);
-  saveClients(clients);
-  saveEntries(entries);
+  dbDeleteClient(clientId);
   showToast('Client deleted.', 'error');
   if (currentClientId === clientId) currentClientId = null;
   renderDashboard();
@@ -1819,30 +1965,31 @@ function saveEntry() {
 
   if (!date) { showToast('Date is required!', 'error'); return; }
 
-  let entries = loadEntries();
+  let entries = dbGetEntries();
 
   if (id) {
     // UPDATE existing entry
     const idx = entries.findIndex(e => e.id === id);
     if (idx > -1) {
-      entries[idx] = { ...entries[idx], date, folder, stage,
+      const updatedEntry = { ...entries[idx], date, folder, stage,
         customStage: stageRaw==='CUSTOM'?customSt:'',
-        tmno, cls, details, due, received, type };
+        tmno, cls, details, due, received, type, created_at: entries[idx].created_at };
+      dbSaveEntry(updatedEntry);
     }
     showToast('Entry updated!', 'success');
   } else {
     // ADD new entry
-    entries.push({
+    const newEntry = {
       id: uid(), clientId: currentClientId,
       date, folder, stage,
       customStage: stageRaw==='CUSTOM'?customSt:'',
       tmno, cls, details, due, received,
-      balance: due - received, type
-    });
+      balance: due - received, type, created_at: new Date().toISOString()
+    };
+    dbSaveEntry(newEntry);
     showToast('Entry added!', 'success');
   }
 
-  saveEntries(entries);
   closeModal('entryModal');
   renderLedger();
 }
@@ -1852,8 +1999,7 @@ function saveEntry() {
 // ============================================================
 function deleteEntry(entryId) {
   if (!confirm('Delete this entry?')) return;
-  let entries = loadEntries().filter(e => e.id !== entryId);
-  saveEntries(entries);
+  dbDeleteEntry(entryId);
   showToast('Entry deleted.', 'error');
   renderLedger();
 }
@@ -1893,7 +2039,7 @@ function toggleEntryType() {
 // SETTINGS — Load saved values into form fields
 // ============================================================
 function loadSettingsForm() {
-  const s = loadSettings();
+  const s = dbGetSettings();
   document.getElementById('setFirmName').value   = s.firmName   || '';
   document.getElementById('setAddress').value    = s.address    || '';
   document.getElementById('setPhone').value      = s.phone      || '';
@@ -1916,7 +2062,7 @@ function loadSettingsForm() {
 // SETTINGS — Save form values to localStorage
 // ============================================================
 function saveSettings() {
-  const s = loadSettings();
+  const s = dbGetSettings();
   s.firmName    = document.getElementById('setFirmName').value.trim();
   s.address     = document.getElementById('setAddress').value.trim();
   s.phone       = document.getElementById('setPhone').value.trim();
@@ -1926,7 +2072,7 @@ function saveSettings() {
   s.bankIBAN    = document.getElementById('setBankIBAN').value.trim();
   s.bankTitle   = document.getElementById('setBankTitle').value.trim();
 
-  saveSettingsData(s);
+  dbSaveSettings(s);
 
   // Apply firm name to topbar display
   if (s.firmName) {
@@ -1961,9 +2107,9 @@ function handleLogoUpload(event) {
     updateTopbarLogo(b64);
 
     // Save into settings
-    const s = loadSettings();
+    const s = dbGetSettings();
     s.logoBase64 = b64;
-    saveSettingsData(s);
+    dbSaveSettings(s);
 
     showToast('Logo uploaded!', 'success');
   };
@@ -1974,9 +2120,9 @@ function handleLogoUpload(event) {
 // REMOVE LOGO
 // ============================================================
 function removeLogo() {
-  const s = loadSettings();
+  const s = dbGetSettings();
   delete s.logoBase64;
-  saveSettingsData(s);
+  dbSaveSettings(s);
   document.getElementById('logoPreviewImg').style.display = 'none';
   document.getElementById('logoPreviewImg').src = '';
   document.getElementById('logoUploadText').style.display = 'block';
@@ -2049,9 +2195,21 @@ function importData(event) {
 function confirmClearData() {
   if (!confirm('CLEAR ALL DATA? This deletes ALL clients, entries, and settings permanently!')) return;
   if (!confirm('Are you ABSOLUTELY SURE?')) return;
+  
+  // Clear SQLite database
+  if (db) {
+    db.run('DELETE FROM entries');
+    db.run('DELETE FROM clients');
+    db.run('DELETE FROM settings');
+    saveDbToStorage();
+  }
+  
+  // Also clear LocalStorage for backwards compatibility
   localStorage.removeItem(DB_CLIENTS);
   localStorage.removeItem(DB_ENTRIES);
   localStorage.removeItem(DB_SETTINGS);
+  localStorage.removeItem(DB_NAME);
+  
   renderDashboard();
   loadSettingsForm();
   resetTopbarLogo();
@@ -2064,7 +2222,7 @@ function confirmClearData() {
 // Restore logo and firm name from saved settings
 // ============================================================
 function applySettings() {
-  const s = loadSettings();
+  const s = dbGetSettings();
   if (s.firmName) {
     document.getElementById('firmNameDisplay').innerHTML =
       s.firmName.replace(' ','<br>');
@@ -2088,8 +2246,16 @@ function populateClassDropdown() {
 // ============================================================
 // APP INIT — runs on page load
 // ============================================================
-function init() {
+async function init() {
   populateClassDropdown();  // Fill class 1-45
+  
+  // Initialize SQLite database
+  await initSQLite();
+  
+  // Initialize Google API
+  gapiLoaded();
+  gisLoaded();
+  
   applySettings();          // Restore logo & firm name
   renderDashboard();        // Show client cards
 }
