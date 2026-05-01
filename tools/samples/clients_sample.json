@@ -1,0 +1,23 @@
+{
+  "clients": [
+    {
+      "code": "A-001",
+      "name": "Client One",
+      "city": "Karachi",
+      "notes": "VIP"
+    },
+    {
+      "code": "A-002",
+      "name": "Client Two",
+      "city": "Lahore"
+    },
+    {
+      "code": "A-003",
+      "name": "Client Three",
+      "city": "Islamabad",
+      "notes": "Has pending matters"
+    }
+  ],
+  "ledger_entries": [],
+  "exported_at": "2026-05-01T14:32:52.864017Z"
+}
