@@ -1,0 +1,5 @@
+client_code,date,folder_no,stage,tm_no,class_no,details,due_amount,received_amount,entry_type
+A-001,2026-01-05,12,S1,TM-100,1,Filing Fee,5000,0,NORMAL
+A-001,2026-01-10,12,S2,TM-100,1,Received partial payment,0,2000,NORMAL
+A-002,2026-02-01,7,S1,TM-200,3,Opening Balance,15000,0,NORMAL
+A-003,2026-03-15,9,S3,TM-300,5,Court Fee,3000,0,NORMAL
