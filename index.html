@@ -2506,11 +2506,12 @@ function importData(event) {
           renderDashboard();
           showToast(dryRun ? 'Dry run completed. Check import logs in admin.' : 'Data imported successfully!', 'success');
         })
-        .catch(() => {
-          if (state.auth.user && state.auth.user.role !== 'ADMIN') {
+        .catch((e) => {
+          const msg = (e && e.message) ? e.message : 'Import failed';
+          if (state.auth.user && state.auth.user.role !== 'ADMIN' && (msg.includes('403') || msg.includes('permission') || msg.includes('Admin'))) {
             showToast('Backup import is Admin only', 'error');
           } else {
-            showToast('Import failed', 'error');
+            showToast(msg, 'error');
           }
         });
     } catch(err) {
